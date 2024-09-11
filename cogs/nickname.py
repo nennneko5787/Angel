@@ -56,8 +56,8 @@ class NickNameCog(commands.Cog):
                     "VSCodeしか勝たん。異論は認めない。",
                 ]
             )
-        await ctx.author.edit(nick=new)
-        embed = discord.Embed(description=f"ニックネームを`{new}`に変更しました{gobi}")
+        member = await ctx.author.edit(nick=new)
+        embed = discord.Embed(description=f"ニックネームを`{member.display_name}`に変更しました{gobi}")
         await ctx.reply(embed=embed)
 
 
