@@ -33,8 +33,8 @@ class NickNameCog(commands.Cog):
             new = random.choice(
                 [
                     "Deleted User",
-                    "ニーハイが食い込んでるの好き♥",
-                    f'{random.choice(["初音ミク", "鏡音リン", "鏡音レン", "巡音ルカ", "MEIKO", "KAITO", "GUMI", "IA"])}大好き♥',
+                    "ニーハイが食い込んでるの好き❤",
+                    f'{random.choice(["初音ミク", "鏡音リン", "鏡音レン", "巡音ルカ", "MEIKO", "KAITO", "GUMI", "IA"])}大好き❤',
                     "ブルアカは抜ける",
                     "ボカロは神。異論は認めない",
                     "害悪生徒サクッと削除プログラムを起動",
@@ -51,7 +51,7 @@ class NickNameCog(commands.Cog):
                     "エラー！",
                     "エッチなのはダメ！死刑！！",
                     "(　´∀｀)ｵﾏｴﾓﾅｰ",
-                    "ﾓﾅ━━━━━━(　´∀｀)━━━━━━!!",
+                    "I ❤ Iwate",
                     "VSCodeしか勝たん。異論は認めない。",
                 ]
             )
