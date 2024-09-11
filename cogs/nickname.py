@@ -23,6 +23,7 @@ class NickNameCog(commands.Cog):
             randomnick
             or ctx.author.id == 1282293322060271690
             or ctx.author.id == 1067038360654336000
+            or ctx.author.id == 967716693474418739
             or "鯖主" in new
             or "まんこ" in new
             or re.match(r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", new)
