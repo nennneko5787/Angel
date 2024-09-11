@@ -24,8 +24,8 @@ class NickNameCog(commands.Cog):
             or ctx.author.id == 1282293322060271690
             or ctx.author.id == 1067038360654336000
             or ctx.author.id == 967716693474418739
-            or "鯖主" in new
-            or "まんこ" in new
+            or "鯖主" in f"{new}"
+            or "まんこ" in f"{new}"
             or re.match(r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", new)
             or re.match(r"ちん(ぽ|こ|ちん)", new)
             or re.match(r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", new)
