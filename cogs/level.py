@@ -16,17 +16,21 @@ class LevelCog(commands.Cog):
         if user is None:
             user = ctx.author
         async with aiosqlite.connect("level.db") as db:
+            db.row_factory = aiosqlite.Row
             async with db.execute(
                 "SELECT * FROM users WHERE id = ?", (user.id,)
             ) as cursor:
                 row = await cursor.fetchone()
 
                 if not row:
-                    row = (ctx.author.id, 0, 0)
+                    row = dict()
+                    row["ID"] = ctx.author.id
+                    row["EXP"] = 0
+                    row["LEVEL"] = 0
 
                 embed = discord.Embed(
                     title=f"{user.display_name} の情報",
-                    description=f"**レベル**: {row[1]}\n経験値: {row[2]} / {500 * row[1]}",
+                    description=f'**レベル**: {row["level"]}\n経験値: {row["EXP"]} / {120 * row["LEVEL"]}',
                     color=discord.Colour.og_blurple(),
                 ).set_thumbnail(url=user.display_avatar.url)
 
@@ -38,24 +42,30 @@ class LevelCog(commands.Cog):
             return
 
         async with aiosqlite.connect("level.db") as db:
+            db.row_factory = aiosqlite.Row
+
             async with db.execute(
                 "SELECT * FROM users WHERE id = ?", (message.author.id,)
             ) as cursor:
                 row = await cursor.fetchone()
-
+                print(row)
                 if not row:
-                    row = [message.author.id, 0, 0]
-                else:
-                    row = list(row)  # Convert tuple to list to modify values
+                    row = dict()
+                    row["ID"] = message.author.id
+                    row["EXP"] = 0
+                    row["LEVEL"] = 0
+                print(row.keys() if row is not None else "none")
+                row = dict(row)
+                row["EXP"] += random.randint(1, 25)  # Add random experience
 
-                row[2] += random.randint(1, 25)  # Add random experience
-
-                if row[2] >= 500 * row[1]:
-                    row[1] += 1
-                    row[2] = 0
+                if row["EXP"] >= 120 * row["LEVEL"]:
+                    row["LEVEL"] += 1
+                    row["EXP"] -= 120 * (
+                        row["LEVEL"] - 1
+                    )  # Subtract the experience needed for the previous level
 
                     await self.bot.get_channel(1282718839683154008).send(
-                        f"🥳 **{message.author.mention}** さんのレベルが **{row[1] - 1}** から **{row[1]}** に上がりました 🎉"
+                        f"🥳 **{message.author.mention}** さんのレベルが **{row['LEVEL'] - 1}** から **{row['LEVEL']}** に上がりました 🎉"
                     )
 
             # Insert or update user data
@@ -68,7 +78,7 @@ class LevelCog(commands.Cog):
                     level = excluded.level,
                     exp = excluded.exp
                 """,
-                (message.author.id, row[1], row[2]),
+                (message.author.id, row["LEVEL"], row["EXP"]),
             )
             await db.commit()
 
