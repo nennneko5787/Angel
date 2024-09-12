@@ -18,17 +18,18 @@ class NickNameCog(commands.Cog):
         new: str = "",
         randomnick: bool = False,
     ):
+        member = await ctx.author.edit(nick=new)
         gobi = "。"
         if (
             randomnick
             or ctx.author.id == 1282293322060271690
             or ctx.author.id == 1067038360654336000
             or ctx.author.id == 967716693474418739
-            or "鯖主" in new
-            or "まんこ" in new
-            or re.match(r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", new)
-            or re.match(r"ちん(ぽ|こ|ちん)", new)
-            or re.match(r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", new)
+            or "鯖主" in member.display_name
+            or "まんこ" in member.display_name
+            or re.match(r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", member.display_name)
+            or re.match(r"ちん(ぽ|こ|ちん)", member.display_name)
+            or re.match(r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", member.display_name)
         ):
             gobi = "（笑）"
             new = random.choice(
@@ -57,7 +58,9 @@ class NickNameCog(commands.Cog):
                 ]
             )
         member = await ctx.author.edit(nick=new)
-        embed = discord.Embed(description=f"ニックネームを`{member.display_name}`に変更しました{gobi}")
+        embed = discord.Embed(
+            description=f"ニックネームを`{member.display_name}`に変更しました{gobi}"
+        )
         await ctx.reply(embed=embed)
 
 
