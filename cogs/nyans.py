@@ -46,7 +46,7 @@ class NyansCog(commands.Cog):
             await ctx.reply(embed=embed)
             row["nyans"] -= 2
 
-        amount = random.randint(random.randint(-4, -1), random.randint(0, 7))
+        amount = random.randint(random.randint(-4, -1), random.randint(0, 10))
         row["nyans"] += amount
 
         embed = discord.Embed(title="抽選の結果", description=f"{amount}🐱増えた！", colour=discord.Colour.og_blurple())
