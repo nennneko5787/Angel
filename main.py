@@ -1,15 +1,21 @@
 import asyncio
 import os
 import sys
+from contextlib import asynccontextmanager
 
 import discord
 import dotenv
 from discord.ext import commands
+from fastapi import FastAPI
+
+from cogs.database import Database
 
 dotenv.load_dotenv()
 
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+discord.utils.setup_logging()
 
 bot = commands.Bot("jesus!", intents=discord.Intents.all())
 
@@ -22,13 +28,19 @@ async def sync(ctx: commands.Context):
 
 @bot.event
 async def setup_hook():
-    await asyncio.gather(
-        *[
-            bot.load_extension(f"cogs.{cog[:-3]}")
-            for cog in os.listdir("cogs")
-            if cog.endswith(".py")
-        ]
-    )
+    await bot.load_extension(f"cogs.level")
+    await bot.load_extension(f"cogs.nickname")
+    await bot.load_extension(f"cogs.nyans")
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await Database.connect()
+    asyncio.create_task(bot.start(os.getenv("discord")))
+    yield
+    await Database.pool.close()
 
-bot.run(os.getenv("discord"))
+app = FastAPI(lifespan=lifespan)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app=app, host="0.0.0.0", port=5757)

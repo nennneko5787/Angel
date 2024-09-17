@@ -1,2 +1,4 @@
 discord.py
-aiosqlite
+asyncpg
+python-dotenv
+FastAPI[all]

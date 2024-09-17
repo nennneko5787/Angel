@@ -1,13 +1,35 @@
 import random
 import re
+import os
+import dotenv
 
 import discord
 from discord.ext import commands
 
+from .database import Database
+
+dotenv.load_dotenv()
 
 class NickNameCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+
+    @commands.command(name="namelock")
+    async def namelock(self, ctx: commands.Context, user: discord.Member, lock: bool):
+        await ctx.defer()
+        if ctx.author.guild_permissions.manage_nicknames:
+            await Database.pool.execute(
+                """
+                INSERT INTO users (id, isnicklocked)
+                VALUES ($1, $2)
+                ON CONFLICT(id)
+                DO UPDATE SET
+                    isnicklocked = EXCLUDED.isnicklocked
+                """,
+                user.id,
+                int(lock),
+            )
+            await ctx.reply("ok")
 
     @commands.hybrid_command(
         name="nick", description="サーバーでのニックネームを変更します。"
@@ -18,18 +40,28 @@ class NickNameCog(commands.Cog):
         new: str = "",
         randomnick: bool = False,
     ):
+        await ctx.defer()
+        row = await Database.pool.fetchrow("SELECT * FROM users WHERE id = $1", ctx.author.id)
+        if row is not None:
+            row = dict(row)
+        else:
+            row = {}
+        if not "isnicklocked" in row or row["isnicklocked"] is None:
+            row["isnicklocked"] = False
         member = await ctx.author.edit(nick=new)
         gobi = "。"
         if (
             randomnick
-            or ctx.author.id == 1282293322060271690
-            or ctx.author.id == 1067038360654336000
-            or ctx.author.id == 967716693474418739
+            or row["isnicklocked"]
             or "鯖主" in member.display_name
             or "まんこ" in member.display_name
-            or re.match(r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", member.display_name)
+            or re.match(
+                r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", member.display_name
+            )
             or re.match(r"ちん(ぽ|こ|ちん)", member.display_name)
-            or re.match(r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", member.display_name)
+            or re.match(
+                r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", member.display_name
+            )
         ):
             gobi = "（笑）"
             new = random.choice(
