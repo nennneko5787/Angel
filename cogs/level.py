@@ -44,7 +44,7 @@ class LevelCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author.bot or message.content.startswith("jesus!"):
+        if message.author.bot:
             return
 
         row = await Database.pool.fetchrow("SELECT * FROM users WHERE id = $1", message.author.id)
