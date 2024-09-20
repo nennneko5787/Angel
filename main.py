@@ -31,6 +31,7 @@ async def setup_hook():
     await bot.load_extension(f"cogs.level")
     await bot.load_extension(f"cogs.nickname")
     await bot.load_extension(f"cogs.nyans")
+    await bot.load_extension(f"cogs.anticommandspam")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
