@@ -1,14 +1,15 @@
-import random
 import os
-import dotenv
+import random
 
 import asyncpg
 import discord
+import dotenv
 from discord.ext import commands
 
 from .database import Database
 
 dotenv.load_dotenv()
+
 
 class LevelCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -47,7 +48,9 @@ class LevelCog(commands.Cog):
         if message.author.bot:
             return
 
-        row = await Database.pool.fetchrow("SELECT * FROM users WHERE id = $1", message.author.id)
+        row = await Database.pool.fetchrow(
+            "SELECT * FROM users WHERE id = $1", message.author.id
+        )
         if row is not None:
             row = dict(row)
         else:
@@ -78,7 +81,9 @@ class LevelCog(commands.Cog):
                 level = EXCLUDED.level,
                 exp = EXCLUDED.exp
             """,
-            message.author.id, row["level"], row["exp"],
+            message.author.id,
+            row["level"],
+            row["exp"],
         )
 
 

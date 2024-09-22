@@ -1,14 +1,15 @@
+import os
 import random
 import re
-import os
-import dotenv
 
 import discord
+import dotenv
 from discord.ext import commands
 
 from .database import Database
 
 dotenv.load_dotenv()
+
 
 class NickNameCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -41,7 +42,9 @@ class NickNameCog(commands.Cog):
         randomnick: bool = False,
     ):
         await ctx.defer()
-        row = await Database.pool.fetchrow("SELECT * FROM users WHERE id = $1", ctx.author.id)
+        row = await Database.pool.fetchrow(
+            "SELECT * FROM users WHERE id = $1", ctx.author.id
+        )
         if row is not None:
             row = dict(row)
         else:
@@ -55,13 +58,9 @@ class NickNameCog(commands.Cog):
             or row["isnicklocked"]
             or "鯖主" in member.display_name
             or "まんこ" in member.display_name
-            or re.match(
-                r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", member.display_name
-            )
+            or re.match(r"(s|S|ｓ|Ｓ)(e|E|ｅ|Ｅ)(x|X|ｘ|Ｘ)", member.display_name)
             or re.match(r"ちん(ぽ|こ|ちん)", member.display_name)
-            or re.match(
-                r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", member.display_name
-            )
+            or re.match(r"(お|オ|ｵ)(な|ナ|ﾅ)(に|ニ|ﾆ)(ー|-|～)", member.display_name)
         ):
             gobi = "（笑）"
             new = random.choice(
