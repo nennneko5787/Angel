@@ -27,6 +27,7 @@ class JihankiModal(discord.ui.Modal, title="自己紹介"):
             await Database.kyash.get_wallet()
             oldBallance = Database.kyash.value
             await Database.kyash.link_recieve(url=self.kyashLink.value)
+            await Database.kyash.get_wallet()
             newBallance = Database.kyash.value
             ballance = newBallance - oldBallance
 
