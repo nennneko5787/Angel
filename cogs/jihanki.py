@@ -24,8 +24,11 @@ class JihankiModal(discord.ui.Modal, title="自己紹介"):
         await interaction.response.defer(ephemeral=True)
         try:
             linkData = await Database.kyash.link_check(self.kyashLink.value)
-            print(linkData)
+            await Database.kyash.get_wallet()
+            oldBallance = Database.kyash.value
             await Database.kyash.link_recieve(url=self.kyashLink.value)
+            newBallance = Database.kyash.value
+            ballance = newBallance - oldBallance
 
             row = await Database.pool.fetchrow(
                 "SELECT * FROM users WHERE id = $1", interaction.user.id
@@ -37,7 +40,7 @@ class JihankiModal(discord.ui.Modal, title="自己紹介"):
             if "nyans" not in row or row["nyans"] is None:
                 row["nyans"] = 30
 
-            row["nyans"] += linkData["result"]["data"]["transaction"]["amount"] / 0.0001
+            row["nyans"] += ballance / 0.0001
 
             await Database.pool.execute(
                 """
@@ -53,7 +56,7 @@ class JihankiModal(discord.ui.Modal, title="自己紹介"):
 
             embed = discord.Embed(
                 title="自販機を使ったユーザーが居るらしい",
-                description=f'ユーザー: {interaction.user.mention}\n購入した🐱の数: {linkData["result"]["data"]["transaction"]["amount"] / 0.0001}',
+                description=f'ユーザー: {interaction.user.mention}\n購入した🐱の数: {ballance}',
                 colour=discord.Colour.og_blurple(),
             )
             await interaction.guild.get_channel(1286652743959707680).send(embed=embed)
