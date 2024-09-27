@@ -34,6 +34,7 @@ async def setup_hook():
     await bot.load_extension(f"cogs.anticommandspam")
     await bot.load_extension(f"cogs.jihanki")
     await bot.load_extension(f"cogs.auth")
+    await bot.load_extension(f"cogs.rolecolor")
 
 
 @tasks.loop(minutes=2)

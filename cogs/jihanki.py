@@ -73,7 +73,7 @@ class KyashJihankiModal(discord.ui.Modal, title="自己紹介"):
             exception = traceback.format_exc()
             embed = discord.Embed(
                 title="自販機でのエラー",
-                description=f"```py\n{exception}\n```",
+                description=f"ユーザー: {interaction.user.mention}\n```py\n{exception}\n```",
                 colour=discord.Colour.red(),
             )
             await interaction.guild.get_channel(1286652743959707680).send(embed=embed)
@@ -152,7 +152,7 @@ class PayPayJihankiModal(discord.ui.Modal, title="自己紹介"):
             exception = traceback.format_exc()
             embed = discord.Embed(
                 title="自販機でのエラー",
-                description=f"```py\n{exception}\n```",
+                description=f"ユーザー: {interaction.user.mention}\n```py\n{exception}\n```",
                 colour=discord.Colour.red(),
             )
             await interaction.guild.get_channel(1286652743959707680).send(embed=embed)
