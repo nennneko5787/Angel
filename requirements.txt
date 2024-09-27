@@ -3,4 +3,5 @@ asyncpg
 python-dotenv
 FastAPI[all]
 aiokyasher
+aiopaypaython
 multicolorcaptcha

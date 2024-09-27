@@ -12,6 +12,7 @@ dotenv.load_dotenv()
 class CaptchaSelect(discord.ui.Select["CaptchaView"]):
     def __init__(self, characters: str):
         super().__init__()
+        self.selected = False
         self.characters = characters
         options = [
             discord.SelectOption(label=self.randomChars(4).upper()) for i in range(9)
@@ -25,6 +26,16 @@ class CaptchaSelect(discord.ui.Select["CaptchaView"]):
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         assert self.view is not None
+        if self.selected:
+            await interaction.response.send_message(
+                embed=discord.Embed(
+                    title="CAPTCHAに回答済みです",
+                    description="もう一度「**captchaで認証**」ボタンを押して認証するか、「**簡単に認証**」ボタンを押してください。",
+                    colour=discord.Colour.red(),
+                ),
+                ephemeral=True,
+            )
+            return True
         if self.values[0] == self.characters:
             await interaction.user.add_roles(
                 interaction.guild.get_role(1288776710673797173)

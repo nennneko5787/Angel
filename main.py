@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 import discord
 import dotenv
-from discord.ext import commands
+from discord.ext import commands, tasks
 from fastapi import FastAPI
 
 from cogs.database import Database
@@ -36,10 +36,16 @@ async def setup_hook():
     await bot.load_extension(f"cogs.auth")
 
 
+@tasks.loop(minutes=2)
+async def paypayAlive():
+    await Database.paypay.alive()
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await Database.connect()
     await Database.loadKyash()
+    await Database.loadPayPay()
     asyncio.create_task(bot.start(os.getenv("discord")))
     yield
     await Database.pool.close()
