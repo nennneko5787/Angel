@@ -99,7 +99,7 @@ class RoleColorCog(commands.Cog):
         if ctx.author.guild_permissions.administrator:
             embed = discord.Embed(
                 title="自販機",
-                description="**10000** で 名前の色を変えることができます。",
+                description="**10000🐱** で 名前の色を変えることができます。",
                 color=discord.Colour.from_rgb(0, 0, 255),
             )
             await ctx.channel.send(embed=embed, view=self.view)
