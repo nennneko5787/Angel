@@ -87,7 +87,9 @@ class KyashJihankiModal(discord.ui.Modal, title="自己紹介"):
 
 class PayPayJihankiModal(discord.ui.Modal, title="自己紹介"):
     paypayLink = discord.ui.TextInput(label="PayPayの送金リンク")
-    linkPassword = discord.ui.TextInput(label="送金リンクのパスワード(必要な場合)")
+    linkPassword = discord.ui.TextInput(
+        label="送金リンクのパスワード(必要な場合)", default=None, required=False
+    )
 
     def __init__(
         self,
