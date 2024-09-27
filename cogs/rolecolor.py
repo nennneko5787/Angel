@@ -47,8 +47,14 @@ class NameColorModal(discord.ui.Modal, title="自己紹介"):
                 role = await interaction.guild.create_role(
                     name=f"{interaction.user.id}"
                 )
-                interaction.user.add_roles(role)
-            await role.edit(color=discord.Colour.from_str(f"#{self.colorHex.value}"))
+            await interaction.user.add_roles(role)
+            await role.edit(
+                colour=discord.Colour.from_str(f"#{self.colorHex.value}"),
+                position=interaction.guild.get_member(
+                    interaction.client.user.id
+                ).top_role.position
+                - 1,
+            )
 
             row["nyans"] -= 10000
 
