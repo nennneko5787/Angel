@@ -62,6 +62,10 @@ class KyashJihankiModal(discord.ui.Modal, title="自己紹介"):
             )
             await interaction.guild.get_channel(1286652743959707680).send(embed=embed)
 
+            await interaction.user.add_roles(
+                interaction.guild.get_role(1289203773578805258)
+            )
+
             embed = discord.Embed(
                 title="購入が完了しました",
                 description="購入できていない場合は、管理者 <@1048448686914551879> までお問い合わせください。",
@@ -140,6 +144,10 @@ class PayPayJihankiModal(discord.ui.Modal, title="自己紹介"):
                 colour=discord.Colour.og_blurple(),
             )
             await interaction.guild.get_channel(1286652743959707680).send(embed=embed)
+
+            await interaction.user.add_roles(
+                interaction.guild.get_role(1289203773578805258)
+            )
 
             embed = discord.Embed(
                 title="購入が完了しました",
