@@ -37,7 +37,7 @@ class NameColorModal(discord.ui.Modal, title="自己紹介"):
         if "nyans" not in row or row["nyans"] is None:
             row["nyans"] = 30
 
-        if row["nyans"] < 10000:
+        if row["nyans"] < 1000:
             await interaction.followup.send("🐱が足りません。", ephemeral=True)
         else:
             role = discord.utils.get(
@@ -56,7 +56,7 @@ class NameColorModal(discord.ui.Modal, title="自己紹介"):
                 - 1,
             )
 
-            row["nyans"] -= 10000
+            row["nyans"] -= 1000
 
             await Database.pool.execute(
                 """
@@ -105,7 +105,7 @@ class RoleColorCog(commands.Cog):
         if ctx.author.guild_permissions.administrator:
             embed = discord.Embed(
                 title="自販機",
-                description="**10000🐱** で 名前の色を変えることができます。",
+                description="**1000🐱** で 名前の色を変えることができます。",
                 color=discord.Colour.from_rgb(0, 0, 255),
             )
             await ctx.channel.send(embed=embed, view=self.view)

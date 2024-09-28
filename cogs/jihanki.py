@@ -41,7 +41,7 @@ class KyashJihankiModal(discord.ui.Modal, title="自己紹介"):
             if "nyans" not in row or row["nyans"] is None:
                 row["nyans"] = 30
 
-            row["nyans"] += ballance / 0.0001
+            row["nyans"] += ballance / 0.001
 
             await Database.pool.execute(
                 """
@@ -124,7 +124,7 @@ class PayPayJihankiModal(discord.ui.Modal, title="自己紹介"):
             if "nyans" not in row or row["nyans"] is None:
                 row["nyans"] = 30
 
-            row["nyans"] += ballance / 0.0001
+            row["nyans"] += ballance / 0.001
 
             await Database.pool.execute(
                 """
@@ -213,7 +213,7 @@ class JikankiCog(commands.Cog):
         if ctx.author.guild_permissions.administrator:
             embed = discord.Embed(
                 title="自販機",
-                description="**1 Kyashバリュー / 1 Kyashマネー** または **1 PayPay マネーライト / 1 PayPay マネー** で 10000コインを購入することができます",
+                description="**1 Kyashバリュー / 1 Kyashマネー** または **1 PayPay マネーライト / 1 PayPay マネー** で 1000🐱を購入することができます",
                 color=discord.Colour.from_rgb(0, 0, 255),
             )
             await ctx.channel.send(embed=embed, view=self.view)
