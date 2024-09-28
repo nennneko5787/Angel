@@ -37,7 +37,7 @@ class LevelCog(commands.Cog):
 
         embed = discord.Embed(
             title=f"{user.display_name} の情報",
-            description=f'**レベル**: {row["level"]}\n経験値: {row["exp"]} / {120 * row["level"]}\n🐱(にゃん): {row["nyans"]} (**{row["nyans"] * 1000}**円分)',
+            description=f'**レベル**: {row["level"]}\n経験値: {row["exp"]} / {120 * row["level"]}\n🐱(にゃん): {row["nyans"]} (**{row["nyans"] / 1000}**円分)',
             color=discord.Colour.og_blurple(),
         ).set_thumbnail(url=user.display_avatar.url)
 
