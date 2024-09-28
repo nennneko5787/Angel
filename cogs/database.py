@@ -37,8 +37,8 @@ class Database:
                     f'paypay_access_token={os.getenv("paypay_access_token")}',
                 )
                 envFile = envFile.replace(
-                    f"paypay_access_token={mae_refresh_token}",
-                    f'paypay_access_token={os.getenv("paypay_refresh_token")}',
+                    f"paypay_refresh_token={mae_refresh_token}",
+                    f'paypay_refresh_token={os.getenv("paypay_refresh_token")}',
                 )
                 f.write(envFile)
             dotenv.load_dotenv()
