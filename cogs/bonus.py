@@ -18,9 +18,8 @@ class BonusCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        await ctx.defer()
         row = await Database.pool.fetchrow(
-            "SELECT * FROM users WHERE id = $1", ctx.author.id
+            "SELECT * FROM users WHERE id = $1", message.author.id
         )
         if row is not None:
             row = dict(row)
@@ -50,7 +49,7 @@ class BonusCog(commands.Cog):
             DO UPDATE SET
                 nyans = EXCLUDED.nyans
             """,
-            ctx.author.id,
+            message.author.id,
             row["nyans"],
         )
 
