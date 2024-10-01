@@ -16,7 +16,7 @@ class BonusCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.Bot.listener()
+    @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         await ctx.defer()
         row = await Database.pool.fetchrow(
