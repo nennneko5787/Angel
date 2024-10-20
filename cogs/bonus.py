@@ -18,9 +18,13 @@ class BonusCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        row = await Database.pool.fetchrow(
-            "SELECT * FROM users WHERE id = $1", message.author.id
+        user = (
+            message.interaction_metadata.user
+            if message.interaction_metadata is not None
+            else message.author
         )
+
+        row = await Database.pool.fetchrow("SELECT * FROM users WHERE id = $1", user.id)
         if row is not None:
             row = dict(row)
         else:
@@ -30,7 +34,7 @@ class BonusCog(commands.Cog):
 
         if random.randint(0, 15) != 1:
             return
-        
+
         row["nyans"] += 1
 
         embed = discord.Embed(
@@ -38,7 +42,7 @@ class BonusCog(commands.Cog):
             description=f"1🐱増えた！",
             colour=discord.Colour.og_blurple(),
         )
-        await message.author.send(embed=embed)
+        await user.send(embed=embed)
         print(row["nyans"])
 
         await Database.pool.execute(
@@ -49,7 +53,7 @@ class BonusCog(commands.Cog):
             DO UPDATE SET
                 nyans = EXCLUDED.nyans
             """,
-            message.author.id,
+            user.id,
             row["nyans"],
         )
 
