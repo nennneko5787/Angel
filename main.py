@@ -36,6 +36,7 @@ async def setup_hook():
     await bot.load_extension("cogs.auth")
     await bot.load_extension("cogs.rolecolor")
     await bot.load_extension("cogs.bonus")
+    await bot.load_extension("cogs.up")
 
 
 @tasks.loop(minutes=2)
