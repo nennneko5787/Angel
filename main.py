@@ -28,13 +28,14 @@ async def sync(ctx: commands.Context):
 
 @bot.event
 async def setup_hook():
-    await bot.load_extension(f"cogs.level")
-    await bot.load_extension(f"cogs.nickname")
-    await bot.load_extension(f"cogs.nyans")
-    await bot.load_extension(f"cogs.anticommandspam")
-    await bot.load_extension(f"cogs.jihanki")
-    await bot.load_extension(f"cogs.auth")
-    await bot.load_extension(f"cogs.rolecolor")
+    await bot.load_extension("cogs.level")
+    await bot.load_extension("cogs.nickname")
+    await bot.load_extension("cogs.nyans")
+    await bot.load_extension("cogs.anticommandspam")
+    await bot.load_extension("cogs.jihanki")
+    await bot.load_extension("cogs.auth")
+    await bot.load_extension("cogs.rolecolor")
+    await bot.load_extension("cogs.bonus")
 
 
 @tasks.loop(minutes=2)
