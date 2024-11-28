@@ -58,7 +58,7 @@ class UPSiroCog(commands.Cog):
                     await self.replyUP(message, upType=UPType.DCAFE, hours=1)
             # DISSOKU
             case 761562078095867916:
-                if "アップ" in message.embeds[0].description:
+                if "/dissoku up" in message.embeds[0].description:
                     await self.replyUP(message, upType=UPType.DISSOKU, hours=1)
             # DISBOARD
             case 302050872383242240:

@@ -106,6 +106,11 @@ class PayPayJihankiModal(discord.ui.Modal, title="自己紹介"):
     async def on_submit(self, interaction: discord.Interaction) -> None:
         await interaction.response.defer(ephemeral=True)
         try:
+            try:
+                await Database.paypay.alive()
+            except:
+                await Database.loadPayPay()
+
             link_info = await Database.paypay.link_check(self.paypayLink.value)
             ballance = Database.paypay.link_amount
             await Database.paypay.link_receive(
